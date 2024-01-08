@@ -14,9 +14,9 @@ const App = () => {
 
   // componentDidMount - Забираємо список контактів з LS, якщо вони там наявні
   useEffect(() => {
-    const localsStorageContacts = localStorage.getItem('contacts');
-    if (localsStorageContacts) {
-      setContacts(JSON.parse(localsStorageContacts));
+    const localStorageContacts = localStorage.getItem('contacts');
+    if (localStorageContacts) {
+      setContacts(JSON.parse(localStorageContacts));
     }
   }, []);
 
