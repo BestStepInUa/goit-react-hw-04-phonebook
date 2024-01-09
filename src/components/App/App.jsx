@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { nanoid } from 'nanoid';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -22,7 +22,8 @@ const App = () => {
 
   // componentDidUpdate - Записуємо оновлений список контактів в LS при його зміні
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (contacts?.length > 0)
+      localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const handleAddContactFormSubmit = ({ name, number }) => {
@@ -45,12 +46,12 @@ const App = () => {
     ]);
   };
 
-  const visibleContacts = () => {
+  const visibleContacts = useCallback(() => {
     const normalizedFilter = filter.toLocaleLowerCase();
     return contacts.filter(({ name }) =>
       name.toLocaleLowerCase().includes(normalizedFilter)
     );
-  };
+  }, [filter, contacts]);
 
   return (
     <AppContainer>
