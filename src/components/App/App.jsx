@@ -8,22 +8,21 @@ import ContactsFilter from 'components/ContactsFilter';
 
 import AppContainer from './App.styled';
 
-const App = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+const INITIAL_CONTACTS = () => {
+  const localStorageContacts = localStorage.getItem('contacts');
+  if (localStorageContacts) {
+    return JSON.parse(localStorageContacts);
+  }
+  return [];
+};
 
-  // componentDidMount - Забираємо список контактів з LS, якщо вони там наявні
-  useEffect(() => {
-    const localStorageContacts = localStorage.getItem('contacts');
-    if (localStorageContacts) {
-      setContacts(JSON.parse(localStorageContacts));
-    }
-  }, []);
+const App = () => {
+  const [contacts, setContacts] = useState(INITIAL_CONTACTS);
+  const [filter, setFilter] = useState('');
 
   // componentDidUpdate - Записуємо оновлений список контактів в LS при його зміні
   useEffect(() => {
-    if (contacts?.length > 0)
-      localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const handleAddContactFormSubmit = ({ name, number }) => {
